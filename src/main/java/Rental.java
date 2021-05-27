@@ -18,8 +18,15 @@ class Rental {
   double amount() {
     Movie movie = getMovie();
     int daysRented = getDaysRented();
-
     return movie.amountForMovie(daysRented);
+  }
+
+  int frequentRenterPoints() {
+    return getPrice().frequentRenterPoints(getDaysRented());
+  }
+
+  private Price getPrice() {
+    return getMovie().getPrice();
   }
 
 }

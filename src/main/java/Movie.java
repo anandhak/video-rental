@@ -11,8 +11,8 @@ public class Movie {
     this.price = price;
   }
 
-  public int getPriceCode() {
-    return price.getPriceCode();
+  public Price getPrice() {
+    return price;
   }
 
 

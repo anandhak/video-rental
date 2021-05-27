@@ -19,38 +19,25 @@ public class Customer {
 
   public String statement() {
     String header = header(getName());
-
-    String body = "";
+    StringBuilder body = new StringBuilder();
     double totalAmount = 0;
     for (Rental rental: moviesRented){
-      double thisAmount = rental.amount();
-      totalAmount += thisAmount;
-      // show figures for this rental
-      String title = rental.getMovie().getTitle();
-      body += lineItem(thisAmount, title);
+      totalAmount += rental.amount();
+      body.append(lineItem(rental.amount(), rental.getMovie().getTitle()));
     }
-
 
     int frequentRenterPoints = calculateFrequentRenterPoints(this.moviesRented);
 
-    // add footer lines
     String footer= footer(totalAmount, frequentRenterPoints);
-
     return header + body + footer;
   }
 
   private int calculateFrequentRenterPoints(List<Rental> moviesRented) {
-    int frequentRenterPoints = 0;
-
+    int totalFrequentRenterPoints = 0;
     for (Rental rental: moviesRented){
-      frequentRenterPoints++;
-      // add bonus for a two day new release rental
-      Movie movie = rental.getMovie();
-      int priceCode = movie.getPriceCode();
-      if (priceCode == Movie.NEW_RELEASE && rental.getDaysRented() > 1)
-        frequentRenterPoints++;
+      totalFrequentRenterPoints += rental.frequentRenterPoints();
     }
-    return frequentRenterPoints;
+    return totalFrequentRenterPoints;
   }
 
   private String lineItem(double amount, String title) {
