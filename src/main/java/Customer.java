@@ -21,7 +21,8 @@ public class Customer {
     double totalAmount = 0;
     int frequentRenterPoints = 0;
     Enumeration rentals = _rentals.elements();
-    String result = "Rental Record for " + getName() + "\n";
+    String name = getName();
+    String result = header(name);
 
     while (rentals.hasMoreElements()) {
       double thisAmount = 0;
@@ -44,6 +45,9 @@ public class Customer {
           break;
       }
 
+      totalAmount += thisAmount;
+
+
       // add frequent renter points
       frequentRenterPoints++;
 
@@ -52,14 +56,28 @@ public class Customer {
         frequentRenterPoints++;
 
       // show figures for this rental
-      result += "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(thisAmount) + "\n";
-      totalAmount += thisAmount;
+      String title = each.getMovie().getTitle();
+      result += lineItem(thisAmount, title);
     }
 
     // add footer lines
-    result += "You owed " + String.valueOf(totalAmount) + "\n";
-    result += "You earned " + String.valueOf(frequentRenterPoints) + " frequent renter points";
+    result += footer(totalAmount, frequentRenterPoints);
 
     return result;
   }
+
+  private String lineItem(double amount, String title) {
+    return "\t" + title + "\t" + amount + "\n";
+  }
+
+  private String header(String name) {
+    return "Rental Record for " + name + "\n";
+  }
+
+  private String footer(double totalAmount, int frequentRenterPoints) {
+    String footer1 = "You owed " + totalAmount + "\n";
+    String footer2 = "You earned " + frequentRenterPoints + " frequent renter points";
+    return footer1 + footer2;
+  }
+
 }
