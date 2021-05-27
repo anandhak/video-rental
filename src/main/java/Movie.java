@@ -4,19 +4,19 @@ public class Movie {
   public static final int NEW_RELEASE = 1;
 
   private String _title;
-  private int _priceCode;
+  private Price price;
 
   public Movie(String title, int priceCode) {
     _title = title;
-    _priceCode = priceCode;
+    price = new Price(priceCode);
   }
 
   public int getPriceCode() {
-    return _priceCode;
+    return price.getPriceCode();
   }
 
-  public void setPriceCode(int arg) {
-    _priceCode = arg;
+  public void setPriceCode(int priceCode) {
+    price = new Price(priceCode);
   }
 
   public String getTitle() {
@@ -24,23 +24,7 @@ public class Movie {
   }
 
   double amountForMovie(int daysRented) {
-    double amount = 0;
-    int priceCode = getPriceCode();
-    switch (priceCode) {
-      case REGULAR:
-        amount += 2;
-        if (daysRented > 2)
-          amount += (daysRented - 2) * 1.5;
-        break;
-      case NEW_RELEASE:
-        amount += daysRented * 3;
-        break;
-      case CHILDRENS:
-        amount += 1.5;
-        if (daysRented > 3)
-          amount += (daysRented - 3) * 1.5;
-        break;
-    }
-    return amount;
+    return price.amountForPrice(daysRented);
   }
+
 }
